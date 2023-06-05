@@ -1,0 +1,52 @@
+.container.questions {
+    position: relative;
+    width: 108vh;
+    height: 60vh;
+    left: 40vh;
+    top: 25vh;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0px 1px 25px #0000004f;
+    transition: 2s;
+    color: black;
+    padding: 5vh;
+    transition: 0s;
+}
+
+p#pergunta {
+    position: absolute;
+    width: 108vh;
+    height: 14vh;
+    font-size: 14pt;
+    transition: 0s;
+}
+
+div#opcoes {
+    position: absolute;
+    top: 18vh;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 2vh;
+    margin-bottom: 3vh;
+    background-color: #80808024;
+    width: 75vh;
+    padding: 2vh;
+    border-radius: 25px;
+}
+
+label:hover {
+    background-color: rgba(128, 128, 128, 0.276);
+}
+
+input.btn.proxima {
+    top: 461px;
+    left: 94vh;
+}
+
+img.construai {
+    top: 8vh;
+}

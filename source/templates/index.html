@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construai | Pesquisas</title>
+    <link rel="shortcut icon" href="../icone.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/index.css", type="text/css">
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/index.css') }}">
+    <link rel="website icon" type="png" href="{{ url_for('static', filename='arts/icone.ico')}}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='arts/construai.png')}}" class="construai">
+    <form action="/verification/" method="post">
+        <div class="container">
+            {% set alert = get_flashed_messages() %}
+            {% if alert: %}
+                <div class="alert">{{ alert[0] }}</div>
+            {% endif %}
+            <span id="name">Complete as informações abaixo para iniciarmos.</span><br>
+            <div id="informações">
+                <input type="text" class="ipt info" placeholder="Nome" id="nome" name="nome"><br>
+                <input type="text" class="ipt info" placeholder="Cargo" id="cargo" name="cargo"><br>
+                <input type="text" class="ipt info" placeholder="Loja" id="loja" name="loja"><br>
+                <input type="text" class="ipt info" placeholder="Cidade" id="cidade" name="cidade"><br>
+            </div>
+            <input type="submit" value="Iniciar" class="btn iniciar" onclick="load()">
+        </div>
+    </form>
+    <div class="loader"></div>
+    <script src="../static/js/index.js"></script>
+
+</body>
+</html>

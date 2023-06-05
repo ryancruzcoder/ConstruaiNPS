@@ -1,0 +1,16 @@
+span#realized {
+    position: absolute;
+    width: 87vh;
+    left: -22vh;
+    top: -3vh;
+    font-size: 20pt;
+}
+
+input.btn.baixar {
+    background-color: lime;
+    top: 7vh;
+}
+
+input.btn.baixar:hover {
+    background-color: rgb(0, 146, 0);
+}

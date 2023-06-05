@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construai | Pesquisas</title>
+    <link rel="shortcut icon" href="../icone.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/index.css", type="text/css">
+    <link rel="stylesheet" href="../static/css/questions.css", type="text/css">
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/index.css') }}">
+    <link rel="website icon" type="png" href="{{ url_for('static', filename='arts/icone.ico')}}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/questions.css') }}">
+    
+</head>
+<body>
+    <img src="{{ url_for('static', filename='arts/construai.png')}}" class="construai">
+    <div class="container questions">
+        <p id="pergunta">{{counter}}. {{pergunta}}</p>
+        <form action="/questions/" method="post">
+            <div id="opcoes">
+                <label for="opcao1" class="label">
+                    <input type="radio" name="radios" id="opcao1" value="1" required>
+                    Discordo totalmente
+                </label>
+                <label for="opcao2">
+                    <input type="radio" name="radios" id="opcao2" value="2" required>
+                    Discordo parcialmente
+                </label>
+                <label for="opcao3">
+                    <input type="radio" name="radios" id="opcao3" value="3" required>
+                    Neutro
+                </label>
+                <label for="opcao4">
+                    <input type="radio" name="radios" id="opcao4" value="4" required>
+                    Concordo parcialmente
+                </label>
+                <label for="opcao5">
+                    <input type="radio" name="radios" id="opcao5" value="5" required>
+                    Concordo totalmente
+                </label>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="Próxima" class="btn proxima">
+            </div>
+        </form>
+    </div>
+    <div class="loader"></div>
+    <script src="../static/js/index.js"></script>
+</body>
+</html>

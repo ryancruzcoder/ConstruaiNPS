@@ -1,0 +1,115 @@
+
+html {
+    height: 100vh;
+    padding: 0;
+  }
+
+body {
+    min-height: 97vh;
+    padding: 0;
+  }
+
+body {
+    background: linear-gradient(rgb(255, 106, 0), rgb(255, 209, 3)) no-repeat;
+}
+
+div.container {
+    color: white;
+    font-family: sans-serif;
+    position: fixed;
+    left: 79vh;
+    top: 45%;
+}
+
+input.btn {
+    border: none;
+    background-color: #00a1ff;
+    color: white;
+    width: 17vh;
+    height: 5vh;
+    position: absolute;
+    top: 35vh;
+    left: 13vh;
+    border-radius: 16px;
+    box-shadow: 0px 1px 15px #0000004a;
+    cursor: pointer;
+    transition: 0.5s;
+    text-align: center;
+}
+
+input.btn:hover {
+    background-color: #0067a3;
+    transform: scale(1.1);
+}
+
+input.ipt {
+    position: absolute;
+    width: 40vh;
+    height: 3vh;
+    border: none;
+    padding: 1vh;
+    border-radius: 16px;
+    box-shadow: 0px 1px 15px #0000008c;
+    cursor: text;
+}
+
+input:focus {
+    outline: none;
+}
+
+span#name {
+    position: absolute;
+    top: -4vh;
+    left: -18px;
+    width: 50vh;
+}
+
+img.construai {
+    position: absolute;
+    height: 12vh;
+    top: 18vh;
+    left: 76vh;
+    transition: 1s;
+}
+
+.loader {
+    position: absolute;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s infinite linear;
+    top: 51vh;
+    left: 99vh;
+    display: none;
+}
+  
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+.alert {
+    position: absolute;
+    width: 20vh;
+    left: 11vh;
+    top: -10vh;
+    color: red;
+}
+
+input#cargo {
+    top: 10vh;
+}
+
+input#loja {
+    top: 134px;
+}
+
+input#cidade {
+    top: 192px;
+}
