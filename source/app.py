@@ -1,5 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
 from time import sleep as pause
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from flask import Flask, render_template, request, redirect, url_for, flash
+
+
 
 list_suges = [["Recomenda-se realizar melhorias na organização e identificação dos produtos para tornar a busca mais fácil e intuitiva.",
                "Sugere-se fazer ajustes na forma como os produtos estão organizados e identificados para melhorar a experiência de busca dos clientes.",
@@ -76,7 +81,6 @@ list_suges = [["Recomenda-se realizar melhorias na organização e identificaç�
                 "Pode ser válido realizar uma análise mais aprofundada da satisfação dos clientes e identificar áreas específicas que precisam de melhorias.",
                 "Parabéns pela satisfação geral dos clientes. Continue buscando oportunidades de aprimoramento para elevar ainda mais a experiência.",
                 "Ótimo! Os clientes estão satisfeitos com a loja, o que indica uma experiência positiva e satisfatória."]]             
-
 questions = ['', 
              'Os produtos são organizados e identificados de forma clara e facilitam a busca?', 
              'Os colaboradores são cordiais, atenciosos e estão prontos para ajudar?', 
@@ -93,17 +97,43 @@ questions = ['',
              'Os preços dos produtos da loja são competitivos em comparação com outras lojas?',
              'A loja se comunica de forma clara e eficaz com os clientes, seja por meio de anúncios, promoções ou outras informações relevantes?',
              'Considerando sua experiência geral, você está satisfeito(a) com a loja?']
-
 counter = 0
 total = 0
 nome = ''
-file_way = ''
+content = ''
+
+def send_email(nome):
+    global content 
+
+    smtp_server = 'email-ssl.com.br'
+    smtp_port = 587
+    email_address = 'suporte@construai.com.br'
+    email_password = 'Suporte!1'
+    
+
+    subject = f'NPS - {nome}'
+    body = f'{content}'
+    
+    msg = MIMEMultipart()
+    msg['From'] = email_address
+    msg['To'] = 'suporte@construai.com.br'
+    msg['Subject'] = subject
+    
+    msg.attach(MIMEText(body, 'plain'))
+    
+    # Send email
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()
+        server.login(email_address, email_password)
+        server.send_message(msg)
+    
+    print('Email sent successfully!')
 
 def write_in(counter, resp):
     global total
     global list_suges
     global questions
-    global file_way
+    global content
     total = total + int(resp)
     resp_number = int(resp)
     if resp == '1':
@@ -117,17 +147,16 @@ def write_in(counter, resp):
     else:
         resp = 'Concordo totalmente'
     try:
-        file = open(file_way, "a", newline="", encoding='utf-8')
-        file.write(f'\n\n\n{counter}.  {questions[counter]}\n\nResposta: {resp}\n\nSugestão: {list_suges[counter - 1][resp_number - 1]}')
-        file.close()
+        content = content + f'\n\n\n{counter}.  {questions[counter]}\n\nResposta: {resp}\n\nSugestão: {list_suges[counter - 1][resp_number - 1]}'
     except IndexError:
         pass
+
 
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'construai@2515'
 
-url = "http://localhost:8080"
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -138,7 +167,7 @@ def questions_pag():
     global total
     global counter
     global questions
-    global file_way
+    global content
     if request.method == 'POST':
         resp = request.form.get('radios')
         write_in(counter=counter, resp=resp)
@@ -147,9 +176,7 @@ def questions_pag():
         try:
             return render_template('questions.html', pergunta = questions[counter], counter = counter)
         except IndexError:
-            file = open(file_way, "a", newline="", encoding='utf-8')
-            file.write(f'\n\n\nTotal de Maturidade: {total}')
-            file.close()
+            content = content + f'\n\n\nTotal de Maturidade: {total}'
             return render_template('end.html')
     else:
         counter = 0
@@ -159,32 +186,27 @@ def questions_pag():
 @app.route('/verification/', methods=['POST'])
 def verification():
     global nome
-    global file_way
+    global content
     nome = request.form.get("nome")
     cargo = request.form.get("cargo")
     loja = request.form.get("loja")
     cidade = request.form.get("cidade")
     if nome and cargo and loja and cidade:
         pause(5)
-        nome_filter = nome[0:7] + '-' + cargo
-        nome_filter = nome_filter.replace(' ', '')
-        file_way = f"{nome_filter}.txt"
-        file = open(file_way, "w", newline="", encoding='utf-8')
-        file.truncate(0)
-        file.write(f'Informações:\n\nNome: {nome} \nCargo: {cargo} \nLoja: {loja} \nCidade: {cidade} \n')
-        file.close()
+        content = content + f'Informações:\n\nNome: {nome} \nCargo: {cargo} \nLoja: {loja} \nCidade: {cidade} \n'
         return redirect(url_for('questions_pag'))
     else:
         pause(5)
         return render_template('index.html', alert=flash('Informações inválidas!')) 
 
-
 @app.route('/finalized/', methods=['GET'])
 def finalized():
+    global nome
+    send_email(nome=nome)
     return render_template('end.html')
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080, host='localhost')
+    app.run(debug=True)
 
